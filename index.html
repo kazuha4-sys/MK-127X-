@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK 127X¹</title>
+    <style>
+        /* Estilos gerais para os iframes */
+         
+        body {  
+            background-color: rgb(41, 41, 41);
+        }
+
+        .logo h1{
+            text-align: center;
+            font-size: 70px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: floralwhite;
+        }
+        iframe {
+        border: 2px solid #ccc; /* Borda ao redor dos iframes */
+        border-radius: 10px; /* Cantos arredondados */
+        width: 100%; /* Largura completa do contêiner pai */
+        height: 500px; /* Altura dos iframes */
+        margin-bottom: 20px; /* Espaçamento inferior entre os iframes */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ao redor dos iframes */
+        }
+
+        /* Estilos específicos para o primeiro iframe */
+        iframe#1 {
+        background-color: #f0f0f0; /* Cor de fundo específica para o primeiro iframe */
+        }
+
+        /* Estilos específicos para o segundo iframe */
+        iframe#2 {
+        background-color: #e0e0e0; /* Cor de fundo específica para o segundo iframe */
+        }
+
+        /* Estilos para o contêiner dos iframes */
+        .iframe-container {
+        display: flex; /* Layout flexível */
+        flex-direction: column; /* Coluna para empilhar os iframes verticalmente */
+        gap: 20px; /* Espaçamento entre os iframes */
+        align-items: center; /* Centralizar iframes horizontalmente */
+        padding: 20px; /* Espaçamento interno do contêiner */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <h1>MK 127X¹</h1>
+    </div>
+    <div class="iframe-container">
+        <iframe src="interface_grafica/html2.html" id="1" frameborder="0"></iframe>
+        <iframe src="interface_grafica/html.html" id-='2' frameborder="0"></iframe>
+    </div>
+</body>
+</html>

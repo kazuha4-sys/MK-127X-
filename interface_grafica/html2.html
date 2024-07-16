@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MK 127X - Tradutor de Voz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0; /* Cor de fundo do corpo */
+  }
+
+  .container {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff; /* Cor de fundo da área de conteúdo */
+    padding: 20px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda */
+    border-radius: 8px; /* Borda arredondada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  }
+
+  button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Remove a borda do botão */
+    border-radius: 4px; /* Borda arredondada */
+    transition: background-color 0.3s; /* Transição suave de cor de fundo */
+  }
+
+  button:hover {
+    background-color: #45a049; /* Cor de fundo do botão ao passar o mouse */
+  }
+
+  #texto-saida {
+    padding: 10px;
+    min-height: 100px;
+    border: 1px solid #ccc; /* Borda */
+    background-color: #f9f9f9; /* Cor de fundo */
+    border-radius: 4px; /* Borda arredondada */
+    font-size: 16px;
+    line-height: 1.6; /* Espaçamento entre linhas */
+    white-space: pre-wrap; /* Manter quebras de linha */
+    text-align: left; /* Alinhamento do texto */
+    margin-top: 15px; /* Margem superior */
+  }
+</style>
+</head>
+<body>
+<h1>Tradutor de Voz</h1>
+<!--<p id="logo">MK 127X</p>-->
+
+<div class="container">
+  <button id="btn-falar">Falar</button>
+  <button id="btn-parar">Parar</button>
+  <p id="texto-saida" placeholder="Tradução aparecerá aqui..."></p>
+</div>
+
+<script>
+  const btnFalar = document.getElementById('btn-falar');
+  const btnParar = document.getElementById('btn-parar');
+  const textoSaida = document.getElementById('texto-saida');
+
+  const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+  recognition.lang = 'pt-BR'; // Define o idioma para reconhecimento de fala
+
+  recognition.onresult = async (event) => {
+    const textoCapturado = event.results[event.results.length - 1][0].transcript; // Captura a última transcrição (melhor precisão)
+    const traducao = await traduzirParaIngles(textoCapturado);
+    textoSaida.textContent = traducao;
+  };
+
+  recognition.onerror = (event) => {
+    console.error('Erro ao capturar fala:', event.error);
+  };
+
+  function iniciarCaptura() {
+    recognition.start();
+  }
+
+  function pararCaptura() {
+    recognition.stop();
+  }
+
+  btnFalar.addEventListener('click', iniciarCaptura);
+  btnParar.addEventListener('click', pararCaptura);
+
+  async function traduzirParaIngles(texto) {
+    const apiKey = ''; // Coloque aqui sua chave de API do Google Translate (opcional, dependendo da implementação)
+    const targetLanguage = 'en'; // Língua alvo (inglês)
+
+    try {
+      const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(texto)}`);
+      const data = await response.json();
+
+      // A resposta da API retorna em um formato específico, onde a tradução estará na primeira posição do array
+      const traducao = data[0][0][0];
+      return traducao;
+    } catch (error) {
+      console.error('Erro ao traduzir texto:', error);
+      return 'Erro ao traduzir.';
+    }
+  }
+</script>
+</body>
+</html>

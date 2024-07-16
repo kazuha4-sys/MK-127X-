@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MK 127X - Tradutor de Texto</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0; /* Cor de fundo do corpo */
+  }
+
+  .container {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff; /* Cor de fundo da área de conteúdo */
+    padding: 20px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda */
+    border-radius: 8px; /* Borda arredondada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  }
+
+  textarea, button {
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Borda */
+    border-radius: 4px; /* Borda arredondada */
+    transition: background-color 0.3s; /* Transição suave de cor de fundo */
+  }
+
+  button {
+    cursor: pointer;
+    background-color: #4CAF50; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Remove a borda do botão */
+  }
+
+  button:hover {
+    background-color: #45a049; /* Cor de fundo do botão ao passar o mouse */
+  }
+
+  textarea {
+    height: 200px;
+  }
+
+  #texto-saida {
+    padding: 10px;
+    min-height: 100px;
+    border: 1px solid #ccc; /* Borda */
+    background-color: #f9f9f9; /* Cor de fundo */
+    border-radius: 4px; /* Borda arredondada */
+    font-size: 16px;
+    line-height: 1.6; /* Espaçamento entre linhas */
+    white-space: pre-wrap; /* Manter quebras de linha */
+    text-align: left; /* Alinhamento do texto */
+    margin-top: 15px; /* Margem superior */
+  }
+</style>
+</head>
+<body>
+<h1>Tradutor de Texto</h1>
+<!--<p>MK 127X¹</p>-->
+
+<div class="container">
+  <textarea id="texto-entrada" placeholder="Digite o texto para traduzir..."></textarea>
+  <button id="btn-traduzir">Traduzir para Inglês</button>
+  <p id="texto-saida" placeholder="Tradução aparecerá aqui..."></p>
+</div>
+
+<script>
+  const btnTraduzir = document.getElementById('btn-traduzir');
+  const textoEntrada = document.getElementById('texto-entrada');
+  const textoSaida = document.getElementById('texto-saida');
+
+  // Função para traduzir texto usando a API de tradução do Google Translate
+  async function traduzirTexto(texto) {
+    const apiKey = ''; // Coloque aqui sua chave de API do Google Translate (opcional, dependendo da implementação)
+    const targetLanguage = 'en'; // Língua alvo (inglês)
+
+    try {
+      const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(texto)}`);
+      const data = await response.json();
+
+      // A resposta da API retorna em um formato específico, onde a tradução estará na primeira posição do array
+      const traducao = data[0][0][0];
+      textoSaida.textContent = traducao; // Usamos textContent para inserir texto no elemento <p>
+    } catch (error) {
+      console.error('Erro ao traduzir texto:', error);
+    }
+  }
+
+  btnTraduzir.addEventListener('click', () => {
+    const texto = textoEntrada.value;
+    traduzirTexto(texto);
+  });
+</script>
+</body>
+</html>
